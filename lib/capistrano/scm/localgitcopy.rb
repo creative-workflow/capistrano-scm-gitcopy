@@ -11,7 +11,7 @@ class Capistrano::SCM::Localgitcopy < ::Capistrano::SCM::Plugin
   end
 
   def define_tasks
-    eval_rakefile File.expand_path("tasks/localgitcopy.rake", __FILE__)
+    eval_rakefile File.expand_path("tasks/localgitcopy.rake", File.dirname(__FILE__))
   end
 
   def register_hooks
