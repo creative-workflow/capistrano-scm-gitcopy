@@ -25,16 +25,16 @@ First make sure you install the capistrano-scm-localgitcopy by adding it to your
 Add to Capfile:
 
     require 'capistrano/scm/localgitcopy'
-    install_plugin Capistrano::SCM::Localgitcopy
+    install_plugin Capistrano::SCM::LocalGitCopy
 
 ## Configuration (defaults)
 ```
-set :archive_name, 'deploy-archive.tar.gz'      # local archive name
-set :include_dir,  './'                         # you can use a subfolder for deployment
-set :tar_roles,    :all                         # roles to run on tar
-set :tar_verbose,  true                         # enable verbose mode for tar
-set :exclude_dir,  nil                          # exclude directories
-set :temp_file,    '/tmp/deploy-archive.tar.gz' # temp file on server
+set :local_git_copy_archive_name, 'deploy-archive.tar.gz'      # local archive name
+set :local_git_copy_include_dir,  './'                         # you can use a subfolder for deployment
+set :local_git_copy_tar_roles,    :all                         # roles to run on tar
+set :local_git_copy_tar_verbose,  true                         # enable verbose mode for tar
+set :local_git_copy_exclude_dir,  nil                          # exclude directories
+set :local_git_copy_temp_file,    '/tmp/deploy-archive.tar.gz' # temp file on server
 ```
 
 ## Pitfall: git and utf 8 chars
@@ -54,8 +54,10 @@ $ git commit -m "clean up bad encoding of file names"
 The MIT License (MIT)
 
 ### Changelog
+##### 0.2.0
+- add prefix `local_git_copy_` to options
+- rename plugin class from `Capistrano::SCM::Localgitcopy` to `Capistrano::SCM::LocalGitCopy`
+- really use `local_git_copy_tar_roles`
 
-0.1.0
------
-
+##### 0.1.0
 - Initial release

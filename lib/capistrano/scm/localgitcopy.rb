@@ -1,13 +1,13 @@
 require "capistrano/scm/plugin"
 
-class Capistrano::SCM::Localgitcopy < ::Capistrano::SCM::Plugin
+class Capistrano::SCM::LocalGitCopy < ::Capistrano::SCM::Plugin
   def set_defaults
-    set_if_empty :archive_name, 'deploy-archive.tar.gz'
-    set_if_empty :include_dir,  './'
-    set_if_empty :tar_roles,    :all
-    set_if_empty :tar_verbose,  true
-    set_if_empty :exclude_dir,  nil
-    set_if_empty :temp_file,    '/tmp/deploy-archive.tar.gz'
+    set_if_empty :local_git_copy_archive_name, 'deploy-archive.tar.gz'
+    set_if_empty :local_git_copy_include_dir,  './'
+    set_if_empty :local_git_copy_tar_roles,    :all
+    set_if_empty :local_git_copy_tar_verbose,  true
+    set_if_empty :local_git_copy_exclude_dir,  nil
+    set_if_empty :local_git_copy_temp_file,    '/tmp/deploy-archive.tar.gz'
   end
 
   def define_tasks

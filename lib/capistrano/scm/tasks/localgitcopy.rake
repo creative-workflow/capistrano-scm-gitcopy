@@ -2,7 +2,9 @@ copy_plugin = self
 
 namespace :localgitcopy do
   task :create_release do
-    on release_roles :all do
+    tar_roles = fetch(:local_git_copy_tar_roles, :all)
+
+    on release_roles tar_roles do
       set(:branch, copy_plugin.fetch_revision)
       execute :mkdir, "-p", release_path
 
@@ -10,8 +12,8 @@ namespace :localgitcopy do
       execute :mkdir, "-p", repo_path
 
       # Create a temporary file on the server
-      tmp_file     = fetch(:temp_file)
-      archive_name = fetch(:archive_name)
+      tmp_file     = fetch(:local_git_copy_temp_file)
+      archive_name = fetch(:local_git_copy_archive_name)
 
       execute :rm, "-f", tmp_file
       execute :touch, tmp_file
@@ -25,7 +27,9 @@ namespace :localgitcopy do
 
   desc "Determine the revision that will be deployed"
   task :set_current_revision do
-    on release_roles :all do
+    tar_roles = fetch(:local_git_copy_tar_roles, :all)
+
+    on release_roles tar_roles do
       within repo_path do
         set :current_revision, copy_plugin.fetch_revision
       end
@@ -33,12 +37,13 @@ namespace :localgitcopy do
   end
 
   task :create_archive do
-    on release_roles :all do
-      archive_name  = fetch(:archive_name)
-      tar_verbose   = fetch(:tar_verbose, true) ? "v" : ""
-      tar_roles     = fetch(:tar_roles, :all)
-      include_dir   = fetch(:include_dir)
-      exclude_dir   = Array(fetch(:exclude_dir))
+    tar_roles = fetch(:local_git_copy_tar_roles, :all)
+
+    on release_roles tar_roles do
+      archive_name  = fetch(:local_git_copy_archive_name)
+      tar_verbose   = fetch(:local_git_copy_tar_verbose, true) ? "v" : ""
+      include_dir   = fetch(:local_git_copy_include_dir)
+      exclude_dir   = Array(fetch(:local_git_copy_exclude_dir))
       exclude_args  = exclude_dir.map { |dir| "--exclude '#{dir}'"}
 
       #cmd = "git archive #{tar_verbose} --format=tar.gz --output=#{archive_name} HEAD:#{include_dir}"
@@ -54,7 +59,7 @@ namespace :localgitcopy do
   end
 
   task :clean do
-    archive_name = fetch(:archive_name)
+    archive_name = fetch(:local_git_copy_archive_name)
     File.delete archive_name if File.exists? archive_name
   end
 end
